@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/zhaoshang_progress.css" />
+    <title>Document</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root" v-cloak>
+      <div class="header">
+        <img class="logo" src="../images/zhaoshang_progress/vank.png" alt="" />
+        <span class="logotit">产城项目半年度招商进展</span>
+        <div class="time">
+          <img src="../images/zhaoshang_progress/Date.png" alt="" srcset="" />
+          <span>2019年01月21日</span>
+        </div>
+        <div class="progress">
+          <p class="txt">上半年已过</p>
+          <p class="ratio">27%</p>
+          <p class="pro">
+            <span class="s1"></span>
+            <span class="s2"></span>
+          </p>
+        </div>
+      </div>
+      <div class="content">
+        <div class="left">
+          <my-list myposition="top">
+            <img
+              slot="img01"
+              src="../images/zhaoshang_progress/redLogo.png"
+              alt=""
+            />
+            <span slot="title">完成率排名</span>
+            <img
+              slot="img02"
+              src="../images/zhaoshang_progress/ratio.png"
+              alt=""
+              srcset=""
+            />
+            <span slot="thtitle3">完成率</span>
+          </my-list>
+          <my-list myposition="bottom">
+            <img
+              slot="img01"
+              src="../images/zhaoshang_progress/jiantou.png"
+              alt=""
+            />
+            <span slot="title">连续上榜排名</span>
+            <img
+              slot="img02"
+              src="../images/zhaoshang_progress/time.png"
+              alt=""
+              srcset=""
+            />
+            <span slot="thtitle3">在榜天数</span>
+          </my-list>
+        </div>
+        <div class="right">
+          <my-list myposition="top">
+            <img
+              slot="img01"
+              src="../images/zhaoshang_progress/redLogo.png"
+              alt=""
+            />
+            <span slot="title">完成率排名</span>
+            <img
+              slot="img02"
+              src="../images/zhaoshang_progress/ratio.png"
+              alt=""
+              srcset=""
+            />
+            <span slot="thtitle3">完成率</span>
+          </my-list>
+          <my-list myposition="bottom">
+            <img
+              slot="img01"
+              src="../images/zhaoshang_progress/jiantou.png"
+              alt=""
+            />
+            <span slot="title">连续上榜排名</span>
+            <img
+              slot="img02"
+              src="../images/zhaoshang_progress/time.png"
+              alt=""
+              srcset=""
+            />
+            <span slot="thtitle3">在榜天数</span>
+          </my-list>
+        </div>
+      </div>
+      <div class="mytext redtxt">红<br />榜</div>
+      <div class="mytext blacktxt">黑<br />榜</div>
+    </div>
+  </body>
+  <script src="../static/lib/vue.js"></script>
+</html>
+<template id="mylist">
+    <div :class="myposition">
+      <div class="title">
+        <slot name="img01"></slot>
+        <slot name="title"></slot>
+      </div>
+      <div class="list">
+        <ul class="th">
+          <li>
+            <img src="../images/zhaoshang_progress/file.png" alt="" srcset="" />
+            <span>项目名</span>
+          </li>
+          <li>
+            <img src="../images/zhaoshang_progress/peo.png" alt="" srcset="" />
+            <span>负责人</span>
+          </li>
+          <li>
+            <slot name="img02"></slot>
+            <slot name="thtitle3"></slot>
+          </li>
+        </ul>
+        <ul class="tb" v-for="n in 3">
+          <li>
+            <span class="num">{{ n }}</span>
+            <span class="text">啊哈急急急哈哈哈哈</span>
+          </li>
+          <li>
+            <span class="text">丁敏</span>
+          </li>
+          <li>
+            <span class="text">51%</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+</template>
+<script src="../js/zhaoshang_progress.js"></script>
+<script>
+//designWidth:设计稿的实际宽度值，需要根据实际设置
+//designHeight:制作稿的最大高度值，需要根据实际设置
+//i为选择自适应的方案目前有两种 1和2
+//这段js的最后面有三个参数记得要设置，一个为设计稿实际宽度，一个为制作稿的最大高度，例如设计稿为1920*1080，则为(1920,1080,1)
+  ;(function(designWidth, designHeight, i) {
+    function scale() {
+      var scale = designWidth / designHeight //设计图比例
+      var a = window.innerWidth
+      var b = window.innerHeight
+      var ratio1 = a / designWidth
+      var ratio2 = b / designHeight
+      console.log(ratio2)
+      //方案一
+      if (i == 1) {
+        programme1(ratio1, ratio2)
+      }
+      //方案二
+      if (i == 2) {
+        if (a / b > scale) {
+          //比设计图宽
+          //以高为基准
+          var right = a - designWidth * ratio2
+          console.log(right)
+          programme2(ratio2, ratio2, right / 2, 0)
+        } else {
+          //比设计图宽或者和设计图相等
+          var bottom = b - designHeight * ratio1
+          console.log(bottom)
+          programme2(ratio1, ratio1, 0, bottom / 2)
+        }
+      }
+    }
+    //方案一全局缩放
+    function programme1(r1, r2) {
+      var body = document.querySelector('body')
+      body.style.cssText =
+        'transform:scale(' +
+        r1 +
+        ',' +
+        r2 +
+        ');transform-origin:left top;overflow:hidden'
+    }
+    //方案二居中按比例缩放
+    function programme2(r1, r2, left, top) {
+      var body = document.querySelector('body')
+      body.style.cssText =
+        'transform:scale(' +
+        r1 +
+        ',' +
+        r2 +
+        ');overflow:hidden; position: relative; top: ' +
+        top +
+        'px;left:' +
+        left +
+        'px;transform-origin:left top'
+    }
+    scale()
+    window.onresize = function() {
+      scale()
+    }
+  })(1920, 1080, 2)
+</script>
